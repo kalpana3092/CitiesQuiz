@@ -1,0 +1,1 @@
+export const IMG_MARKER = require ('../../assets/images/red-flag.png')
