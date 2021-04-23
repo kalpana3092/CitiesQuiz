@@ -1,0 +1,6 @@
+export const STR_CORRECT = 'you are selected right place'
+export const STR_WRONG = 'You are selected far away distance, Please try again'
+export const STR_GAMEOVER = 'You dont have enough point to play the game'
+export const TITLE_GAMEOVER = 'Game Over!!!'
+export const TITLE_ERROR = 'Error'
+export const TITLE_CONGRATS = 'Congratulation!!'

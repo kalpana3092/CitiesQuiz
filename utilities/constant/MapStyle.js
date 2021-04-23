@@ -1,3 +1,6 @@
+/**
+* customMapStyle to show Only Country-borders 
+*/
 export const MapStyle = [
     {
       featureType: "administrative",

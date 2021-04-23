@@ -1,24 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, Alert, Image } from 'react-native';
-import HomeViewStyle from './HomeView.style';
+import { SafeAreaView, View, Text, TouchableOpacity, Alert } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-import * as Capitals from '../assets/files/capitalCities.json';
-import * as ImgConstant from '../utilities/constant/ImageConstant';
 import { Marker } from 'react-native-maps';
 import { getDistance, getPreciseDistance } from 'geolib';
+import * as Capitals from '../assets/files/capitalCities.json';
+import * as ImgConstant from '../utilities/constant/ImageConstant';
+import HomeViewStyle from './HomeView.style';
 import { MapStyle } from '../utilities/constant/MapStyle';
+import * as StrConstant from '../utilities/constant/StringConstant'
 
 const HomeView = () => {
+    //acurracy of selction
     const rangeDistanceInMeters = 50000;
+
+    // user predetermined score
     const [totalScore, setTotalScore] = useState(1500);
+
+    // number of cities placed by user
     const [citiesPlaced, setCitiesPlacedCount] = useState(0);
+
+    // to retrived city from city list
     const [currentCounter, setCounter] = useState(0);
+
+    // city to select
     const [currentCity, setCity] = useState({});
+
+    // list of cities
     const cities = Capitals.capitalCities;
+
+    // to update marker on map
     const [location, setLocation] = useState({
         latitude: 51.5079145,
         longitude: -0.0899163
     });
+
+    // to update current region on map
     const [region, setRegion] = useState({
         latitude: 51.5079145,
         longitude: -0.0899163,
@@ -34,6 +50,9 @@ const HomeView = () => {
         }
     }, [cities]);
 
+    /**
+    * Called on click of place button to validate user selection
+    */
     const gamePostionValidator = () => {
         if (totalScore > 0) {
             var place = cities[currentCounter]
@@ -42,14 +61,14 @@ const HomeView = () => {
                 { latitude: location.latitude, longitude: location.longitude },
             );
             if (distance <= rangeDistanceInMeters) {
-                Alert.alert("Congratulation!!", "you are selected right place")
+                Alert.alert(StrConstant.TITLE_CONGRATS, StrConstant.STR_CORRECT)
                 if (cities.length > currentCounter) {
                     setCity(cities[currentCounter + 1]);
                     setCounter(currentCounter + 1)
                     setCitiesPlacedCount(citiesPlaced + 1)
                 }
             } else {
-                Alert.alert('Error', "You are selected far away distance, Please try again")
+                Alert.alert(StrConstant.TITLE_ERROR, StrConstant.STR_WRONG)
             }
             var noOfKm = distance / 1000
             var finalScore = totalScore - noOfKm
@@ -59,7 +78,7 @@ const HomeView = () => {
                 setTotalScore(0)
             }
         } else {
-            Alert.alert('Game Over!!!', "You dont have enough point to play the game")
+            Alert.alert(StrConstant.TITLE_GAMEOVER, StrConstant.STR_GAMEOVER)
         }
     }
     return (
@@ -77,11 +96,19 @@ const HomeView = () => {
             </View>
             <MapView
                 style={HomeViewStyle.mapView}
+                // To show google map
                 provider={PROVIDER_GOOGLE}
+                // To to show Only Country-borders 
                 customMapStyle={MapStyle}
                 region={region}
                 initialRegion ={region}
-                
+                onPress={(e) => {
+                    setLocation(
+                        {
+                            latitude: e.nativeEvent.coordinate.latitude,
+                            longitude: e.nativeEvent.coordinate.longitude
+                        })
+                }}
                 onRegionChangeComplete={region => {
                     setRegion(region)
                     setLocation(
@@ -93,7 +120,6 @@ const HomeView = () => {
                 <Marker
                     coordinate={{ latitude: location.latitude, longitude: location.longitude }}
                     image = {ImgConstant.IMG_MARKER}
-                    // pinColor="green"
                 />
             </MapView>
             <View style={HomeViewStyle.plusminusButtonContainer}>

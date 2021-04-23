@@ -8,7 +8,8 @@ const HomeViewStyle = StyleSheet.create (
     {
         safeArea: {
             flex: 1, 
-            backgroundColor: 'white'
+            backgroundColor: 'white',
+            paddingBottom:10
         },
 
         topContainer: {
@@ -94,4 +95,4 @@ const HomeViewStyle = StyleSheet.create (
             fontWeight: "bold"
         },
     })
-    export default HomeViewStyle
+export default HomeViewStyle
