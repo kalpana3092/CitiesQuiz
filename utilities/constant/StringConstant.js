@@ -1,5 +1,5 @@
 export const STR_CORRECT = 'you are selected right place'
 export const STR_GAMEOVER = 'You dont have enough point to play the game'
 export const TITLE_GAMEOVER = 'Game Over!!!'
-export const TITLE_ERROR = 'Error'
+export const TITLE_ERROR = 'United-Web'
 export const TITLE_CONGRATS = 'Congratulation!!'
