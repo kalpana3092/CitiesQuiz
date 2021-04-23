@@ -116,7 +116,7 @@ const HomeView = () => {
                 // To show google map
                 provider={PROVIDER_GOOGLE}
                 // To to show Only Country-borders 
-                // customMapStyle={MapStyle}
+                customMapStyle={MapStyle}
                 region={region}
                 initialRegion ={region}
                 onPress={(e) => {
