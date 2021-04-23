@@ -38,8 +38,8 @@ const HomeView = () => {
     const [region, setRegion] = useState({
         latitude: 51.5079145,
         longitude: -0.0899163,
-        latitudeDelta: 0.5,
-        longitudeDelta: 0.5
+        latitudeDelta: 20,
+        longitudeDelta: 20
     })
 
     useEffect(() => {
@@ -68,7 +68,24 @@ const HomeView = () => {
                     setCitiesPlacedCount(citiesPlaced + 1)
                 }
             } else {
-                Alert.alert(StrConstant.TITLE_ERROR, StrConstant.STR_WRONG)
+                setLocation(
+                    {
+                        latitude: place.lat,
+                        longitude: place.long
+                    })
+                    
+                    var noOfKm = distance / 1000
+                    let messageStr = 'You are ' + noOfKm + ' km' + ' distance away from your target'
+                    Alert.alert(
+                        StrConstant.TITLE_ERROR,
+                        messageStr,
+                        [
+                          { text: "OK", onPress: () => {
+                            setCity(cities[currentCounter + 1]);
+                            setCounter(currentCounter + 1)
+                          } }
+                        ]
+                      );
             }
             var noOfKm = distance / 1000
             var finalScore = totalScore - noOfKm
@@ -99,24 +116,27 @@ const HomeView = () => {
                 // To show google map
                 provider={PROVIDER_GOOGLE}
                 // To to show Only Country-borders 
-                customMapStyle={MapStyle}
+                // customMapStyle={MapStyle}
                 region={region}
                 initialRegion ={region}
                 onPress={(e) => {
+                    console.log(e.nativeEvent.coordinate)
                     setLocation(
                         {
                             latitude: e.nativeEvent.coordinate.latitude,
                             longitude: e.nativeEvent.coordinate.longitude
                         })
                 }}
-                onRegionChangeComplete={region => {
-                    setRegion(region)
-                    setLocation(
-                        {
-                            latitude: region.latitude,
-                            longitude: region.longitude
-                        })
-                }}>
+                // onRegionChangeComplete={region => {
+                //     console.log(region)
+                //     setRegion(region)
+                //     setLocation(
+                //         {
+                //             latitude: region.latitude,
+                //             longitude: region.longitude
+                //         })
+                // }}
+                >
                 <Marker
                     coordinate={{ latitude: location.latitude, longitude: location.longitude }}
                     image = {ImgConstant.IMG_MARKER}
